@@ -179,6 +179,7 @@ func WaitForDocker(maxRetries int, retryDelay time.Duration) error {
 // CheckAndStartDocker checks if Docker is running, starts it if needed
 func CheckAndStartDocker() error {
 	if IsDockerRunning() {
+		fmt.Println("✓ Docker is already running")
 		return nil
 	}
 

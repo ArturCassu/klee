@@ -6,6 +6,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/ArturCassu/klee/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -21,7 +22,11 @@ var dockerStartCmd = &cobra.Command{
 	Short: "Start a Docker container",
 	Long:  `Start a Docker container with the specified configuration.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("docker start called")
+		err := utils.CheckAndStartDocker()
+		if err != nil {
+			fmt.Fprintf(cmd.ErrOrStderr(), "Failed to start Docker: %v\n", err)
+			return
+		}
 	},
 }
 
@@ -30,7 +35,7 @@ var dockerStopCmd = &cobra.Command{
 	Short: "Stop a Docker container",
 	Long:  `Stop a running Docker container.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("docker stop called")
+		fmt.Fprintln(cmd.OutOrStdout(), "docker stop called")
 	},
 }
 
@@ -39,7 +44,7 @@ var dockerConfigCmd = &cobra.Command{
 	Short: "Configure Docker settings",
 	Long:  `Configure Docker settings for the current user.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("docker config called")
+		fmt.Fprintln(cmd.OutOrStdout(), "docker config called")
 	},
 }
 
